@@ -9,81 +9,79 @@ webpack-dev-server搭建的服务器项目，启动本地https服务
 ---------------------
 
 ------------------------------
-'use strict'
-const utils = require('./utils')
-const webpack = require('webpack')
-const config = require('../config')
-const merge = require('webpack-merge')
-const baseWebpackConfig = require('./webpack.base.conf')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const portfinder = require('portfinder')
-const devWebpackConfig = merge(baseWebpackConfig, {
-    module: {
-        rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
-    },
-    // cheap-module-eval-source-map is faster for development
-    devtool: config.dev.devtool,
-    // these devServer options should be customized in /config/index.js
-    devServer: {
-        clientLogLevel: 'warning',
-        historyApiFallback: true,
-        hot: true,
-        https: true,
-        host: process.env.HOST ||  config.dev.host,
-        port: process.env.PORT ||  config.dev.port,
-        open: config.dev.autoOpenBrowser,
-        overlay: config.dev.errorOverlay ? {
-            warnings: false,
-            errors: true,
-        } : false,
-        publicPath: config.dev.assetsPublicPath,
-        proxy: config.dev.proxyTable,
-        quiet: true, // necessary for FriendlyErrorsPlugin
-        watchOptions: {
-            poll: config.dev.poll,
-        }
-    },
-    plugins: [
-        new webpack.DefinePlugin({
-            'process.env': require('../config/dev.env'),
-        }),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
-        new webpack.NoEmitOnErrorsPlugin(),
-        // https://github.com/ampedandwired/html-webpack-plugin
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'index.html',
-            inject: true
-        }),
-        new webpack.ProvidePlugin({
-        'window.Quill': 'quill'
-        })
-    ] 
-})
-module.exports = new Promise((resolve, reject) => {
-    portfinder.basePort = process.env.PORT || config.dev.port
-    portfinder.getPort((err, port) => {
-        if (err) {
-            reject(err)
-        } else {
-            // publish the new Port, necessary for e2e tests
-            process.env.PORT = port
-                // add port to devServer config
-            devWebpackConfig.devServer.port = port
-
-            // Add FriendlyErrorsPlugin
-            devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-                compilationSuccessInfo: {
-                    messages: [`Your application is running here: http://${config.dev.host}:${port}`],
-                },
-                onErrors: config.dev.notifyOnErrors ?
-                    utils.createNotifierCallback() :
-                    undefined
-            }))
-            resolve(devWebpackConfig)
-        }
-    })
-})
+'use strict'<br>
+const utils = require('./utils')<br>
+const webpack = require('webpack')<br>
+const config = require('../config')<br>
+const merge = require('webpack-merge')<br>
+const baseWebpackConfig = require('./webpack.base.conf')<br>
+const HtmlWebpackPlugin = require('html-webpack-plugin')<br>
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')<br>
+const portfinder = require('portfinder')<br>
+const devWebpackConfig = merge(baseWebpackConfig, {<br>
+    module: {<br>
+        rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })<br>
+    },<br>
+    // cheap-module-eval-source-map is faster for development<br>
+    devtool: config.dev.devtool,<br>
+    // these devServer options should be customized in /config/index.js<br>
+    devServer: {<br>
+        clientLogLevel: 'warning',<br>
+        historyApiFallback: true,<br>
+        hot: true,<br>
+        https: true,<br>
+        host: process.env.HOST ||  config.dev.host,<br>
+        port: process.env.PORT ||  config.dev.port,<br>
+        open: config.dev.autoOpenBrowser,<br>
+        overlay: config.dev.errorOverlay ? {<br>
+            warnings: false,<br>
+            errors: true,<br>
+        publicPath: config.dev.assetsPublicPath,<br>
+        proxy: config.dev.proxyTable,<br>
+        quiet: true, // necessary for FriendlyErrorsPlugin<br>
+        watchOptions: {<br>
+            poll: config.dev.poll,<br>
+        }<br>
+    },<br>
+    plugins: [<br>
+        new webpack.DefinePlugin({<br>
+            'process.env': require('../config/dev.env'),<br>
+        }),<br>
+        new webpack.HotModuleReplacementPlugin(),<br>
+        new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.<br>
+        new webpack.NoEmitOnErrorsPlugin(),<br>
+        // https://github.com/ampedandwired/html-webpack-plugin<br>
+        new HtmlWebpackPlugin({<br>
+            filename: 'index.html',<br>
+            template: 'index.html',<br>
+            inject: true<br>
+        }),<br>
+        new webpack.ProvidePlugin({<br>
+        'window.Quill': 'quill'<br>
+        })<br>
+    ] <br>
+})<br>
+module.exports = new Promise((resolve, reject) => {<br>
+    portfinder.basePort = process.env.PORT || config.dev.port<br>
+    portfinder.getPort((err, port) => {<br>
+        if (err) {<br>
+            reject(err)<br>
+        } else {<br>
+            // publish the new Port, necessary for e2e tests<br>
+            process.env.PORT = port<br>
+                // add port to devServer config<br>
+            devWebpackConfig.devServer.port = port<br>
+            // Add FriendlyErrorsPlugin<br>
+            devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({<br>
+                compilationSuccessInfo: {<br>
+                    messages: [`Your application is running here: http://${config.dev.host}:${port}`],<br>
+                },<br>
+                onErrors: config.dev.notifyOnErrors ?<br>
+                    utils.createNotifierCallback() :<br>
+                    undefined<br>
+            }))<br>
+            resolve(devWebpackConfig)<br>
+        }<br>
+    })<br>
+})<br>
 ------------------------------------
